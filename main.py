@@ -34,3 +34,11 @@ def add_todo(todo: dict):
     }
     todo_list.append(new_todo)
     return new_todo
+
+@app.put("/todos/{todo_id}")
+def update_list(todo_id:int,new_todo:dict):
+    for item in todo_list:
+        if item["id"]==todo_id:
+            item["text"]= new_todo["text"]
+            item["due"]= new_todo["due"]
+    return todo_list #return the list after we have put into it 
