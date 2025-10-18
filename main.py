@@ -18,3 +18,9 @@ todolist =[
 def main():
     return {"message": "Hello, World"}
 
+# let's define a route by the task idk and return the coressponding id data
+@app.get("/tododata/{IDtodo}")
+async def returndatasync(IDtodo):
+    for TodoE in todolist:
+        if TodoE["IDtodo"] == IDtodo:
+            return {"UserReq":TodoE}
