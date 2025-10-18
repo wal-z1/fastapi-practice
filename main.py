@@ -46,8 +46,9 @@ def update_list(todo_id:int,new_todo:dict):
 
 @app.delete("/todos/{todo_id}")
 def  del_list(todo_id:int):
-    for item in todo_list:
+    for index,item in enumerate(todo_list):
         if item["id"]==todo_id:
-            todo_list.remove(item) #remove the item with that id correspending 
-            return todo_list #to check the updated list 
+            deleted_todo=todo_list.pop(index) #remove the item with that id correspending 
+            #equally u can just remove it
+            return deleted_todo #to check the updated list 
     return "Error The Id to Be edited Wasn't Found"
