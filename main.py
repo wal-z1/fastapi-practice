@@ -1,17 +1,12 @@
 from fastapi import FastAPI
 
 app = FastAPI()
+
 # RANDOM data just to test our study case
-todolist =[
-    {
-        "IDtodo":1,"TodoText":"Study" , "Due":"Tommorow" 
-    },
-      {
-        "IDtodo":2,"TodoText":"Go to gym" , "Due":"Tommorow" 
-    },
-      {
-        "IDtodo":3,"TodoText":"Buy a new Laptop" , "Due":"Next Month" 
-    }
+todo_list = [
+    {"id": 1, "text": "Study", "due": "Tomorrow"},
+    {"id": 2, "text": "Go to gym", "due": "Tomorrow"},
+    {"id": 3, "text": "Buy a new Laptop", "due": "Next Month"},
 ]
 
 @app.get("/")
@@ -19,29 +14,23 @@ def main():
     return {"message": "Hello, World"}
 
 @app.get("/todos")
-def returnton(n: int = None):
-    return {"AllElementsUntiln": todolist[:n]}
+def get_todos(n: int = None):
+    return {"todos_until_n": todo_list[:n]}
 
-# let's define a route by the task idk and return the coressponding id data
-# should cast the IDtodo from the url to be compared to int in the list
-@app.get("/tododata/{IDtodo}")
-def returndata(IDtodo:int):
-    for TodoE in todolist:
-        if TodoE["IDtodo"] == IDtodo:
-            return {"UserReq":TodoE}
-        
-    return{"error":"Id Not Found in DB"}
+@app.get("/todos/{todo_id}")
+def get_todo_by_id(todo_id: int):
+    for todo in todo_list:
+        if todo["id"] == todo_id:
+            return {"todo": todo}
+    return {"error": "ID not found in DB"}
 
-#post method to write into our so called db
-
-@app.post('/todos')
-def addtolist(todo:dict):
-    newtodo_id = max(element["IDtodo"] for element in todolist)+1 
-    #auto assign according to the previous id added
-    newtodo= {
-        "IDtodo":newtodo_id,
-        "TodoText":todo["TodoText"],
-        "Due":todo["Due"],
+@app.post("/todos")
+def add_todo(todo: dict):
+    new_id = max(item["id"] for item in todo_list) + 1
+    new_todo = {
+        "id": new_id,
+        "text": todo["text"],
+        "due": todo["due"],
     }
-    todolist.append(newtodo)
-    return newtodo
+    todo_list.append(new_todo)
+    return new_todo
