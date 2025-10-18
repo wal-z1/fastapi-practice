@@ -31,4 +31,17 @@ def returndatasync(IDtodo):
             return {"UserReq":TodoE}
         
     return{"error":"Id Not Found in DB"}
-        
+
+#post method to write into our so called db
+
+@app.post('/todos')
+def addtolist(todo:dict):
+    newtodo_id = max(element["IDtodo"] for element in todolist)+1 
+    #auto assign according to the previous id added
+    newtodo= {
+        "IDtodo":newtodo_id,
+        "TodoText":todo["TodoText"],
+        "Due":todo["Due"],
+    }
+    todolist.append(newtodo)
+    return newtodo
