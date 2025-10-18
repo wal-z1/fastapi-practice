@@ -41,4 +41,13 @@ def update_list(todo_id:int,new_todo:dict):
         if item["id"]==todo_id:
             item["text"]= new_todo["text"]
             item["due"]= new_todo["due"]
-    return todo_list #return the list after we have put into it 
+            return item #return the list after we have put into it 
+    return "Error The Id to Be edited Wasn't Found"
+
+@app.delete("/todos/{todo_id}")
+def  del_list(todo_id:int):
+    for item in todo_list:
+        if item["id"]==todo_id:
+            todo_list.remove(item) #remove the item with that id correspending 
+            return todo_list #to check the updated list 
+    return "Error The Id to Be edited Wasn't Found"
