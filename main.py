@@ -25,9 +25,9 @@ def returnton(n: int = None):
 # let's define a route by the task idk and return the coressponding id data
 # should cast the IDtodo from the url to be compared to int in the list
 @app.get("/tododata/{IDtodo}")
-def returndatasync(IDtodo):
+def returndata(IDtodo:int):
     for TodoE in todolist:
-        if TodoE["IDtodo"] == int(IDtodo):
+        if TodoE["IDtodo"] == IDtodo:
             return {"UserReq":TodoE}
         
     return{"error":"Id Not Found in DB"}
