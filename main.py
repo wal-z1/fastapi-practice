@@ -25,8 +25,8 @@ class CreateTodo(TodoBase):
     pass
 
 class UpdateTodo(BaseModel):
-    text:  Optional[str] = Field(None,min_length=4,max_length=20) 
-    due : Optional[str] = Field(None,min_length=4,max_length=10)
+    text:  Optional[str] = Field(None,max_length=20) 
+    due : Optional[str] = Field(None,max_length=10)
     priority : Optional[Priority] =Field(None)
         
 app = FastAPI()
@@ -42,30 +42,31 @@ todo_list = [
 def main():
     return {"message": "Hello, World"}
 
-@app.get("/todos")
+@app.get("/todos",response_model=List[ATodo])
 def get_todos(n: int = None):
     return {"todos_until_n": todo_list[:n]}
 
-@app.get("/todos/{todo_id}")
+@app.get("/todos/{todo_id}",response_model=ATodo)
 def get_todo_by_id(todo_id: int):
     for item in todo_list:
         if item.id == todo_id:
             return item
     return {"error": "ID not found in DB"}
 
-@app.post("/todos")
-def add_todo(todo: dict):
-    new_id = max(item["id"] for item in todo_list) + 1
-    new_todo = {
-        "id": new_id,
-        "text": todo["text"],
-        "due": todo["due"],
-    }
+@app.post("/todos",response_model=ATodo)
+def add_todo(todo: CreateTodo): #pass the todo create becaus eit doesnt have an id
+    new_id = max(item.id for item in todo_list) + 1
+    new_todo = ATodo(
+        id= new_id,
+        text= todo.text,
+        due= todo.due,
+        priority= todo.priority
+    )
     todo_list.append(new_todo)
     return new_todo
 
-@app.put("/todos/{todo_id}")
-def update_list(todo_id:int,new_todo:dict):
+@app.put("/todos/{todo_id}",response_model=ATodo)
+def update_list(todo_id:int,new_todo:UpdateTodo):
     for item in todo_list:
         if item["id"]==todo_id:
             item["text"]= new_todo["text"]
