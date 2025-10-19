@@ -45,7 +45,7 @@ def main():
 
 @app.get("/todos",response_model=List[ATodo])
 def get_todos(n: int = None):
-    return {"todos_until_n": todo_list[:n]}
+    return todo_list[:n]
 
 @app.get("/todos/{todo_id}",response_model=ATodo)
 def get_todo_by_id(todo_id: int):
