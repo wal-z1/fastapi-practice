@@ -51,7 +51,7 @@ def get_todo_by_id(todo_id: int):
     for item in todo_list:
         if item.id == todo_id:
             return item
-    return {"error": "ID not found in DB"}
+    raise HTTPException(status_code=404,detail="Data Not Found")
 
 @app.post("/todos",response_model=ATodo)
 def add_todo(todo: CreateTodo): #pass the todo create becaus eit doesnt have an id
@@ -73,7 +73,8 @@ def update_list(todo_id:int,new_todo:UpdateTodo):
             item.due= new_todo.due
             item.priority = new_todo.priority
             return item #return the list after we have put into it 
-    return "Error The Id to Be edited Wasn't Found"
+    raise HTTPException(status_code=404,detail="Data Not Found")
+   
 
 @app.delete("/todos/{todo_id}",response_model=ATodo)
 def  del_list(todo_id:int):
@@ -82,4 +83,4 @@ def  del_list(todo_id:int):
             deleted_todo = todo_list.pop(index) #remove the item with that id correspending 
             #equally u can just remove it
             return deleted_todo #to check the updated list 
-    return "Error The Id to Be edited Wasn't Found"
+    raise HTTPException(status_code=404,detail="Data Not Found")
