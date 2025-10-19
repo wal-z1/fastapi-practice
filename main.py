@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,HTTPException
 from typing import List, Optional  
 # List[int], List[str], Optional[str] → type hints for lists and optional values
 from enum import IntEnum  
@@ -71,14 +71,15 @@ def update_list(todo_id:int,new_todo:UpdateTodo):
         if item.id == todo_id:
             item.text= new_todo.text
             item.due= new_todo.due
+            item.priority = new_todo.priority
             return item #return the list after we have put into it 
     return "Error The Id to Be edited Wasn't Found"
 
-@app.delete("/todos/{todo_id}")
+@app.delete("/todos/{todo_id}",response_model=ATodo)
 def  del_list(todo_id:int):
     for index,item in enumerate(todo_list):
-        if item["id"]==todo_id:
-            deleted_todo=todo_list.pop(index) #remove the item with that id correspending 
+        if item.id == todo_id:
+            deleted_todo = todo_list.pop(index) #remove the item with that id correspending 
             #equally u can just remove it
             return deleted_todo #to check the updated list 
     return "Error The Id to Be edited Wasn't Found"
