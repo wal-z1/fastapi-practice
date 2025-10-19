@@ -20,7 +20,7 @@ class TodoBase(BaseModel):
 
 class ATodo(TodoBase):
     id: str =Field(...,max_length=1)
-    
+
 class CreateTodo(TodoBase):
     pass
 
@@ -33,9 +33,9 @@ app = FastAPI()
 
 # RANDOM data just to test our study case
 todo_list = [
-    {"id": 1, "text": "Study", "due": "Tomorrow"},
-    {"id": 2, "text": "Go to gym", "due": "Tomorrow"},
-    {"id": 3, "text": "Buy a new Laptop", "due": "Next Month"},
+    ATodo(id=1,text="School",due="Today",priority=Priority.HIGH),
+    ATodo(id=1,text="gym",due="Tommorow",priority=Priority.LOW),
+    ATodo(id=1,text="Buy A laptop",due="Next Week",priority=Priority.MEDIUM)
 ]
 
 @app.get("/")
