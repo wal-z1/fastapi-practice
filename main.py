@@ -14,12 +14,12 @@ class Priority(IntEnum):
 
 #define a schema for base , use type and size definations for certain fields
 class TodoBase(BaseModel):
-    text: str = Field(...,min_length=4,max_length=20) #must be filled with str from  4 to 20
-    due : str = Field(...,min_length=4,max_length=10)
+    text: str = Field(...,max_length=20) #must be filled with str from  4 to 20
+    due : str = Field(...,max_length=10)
     priority : Priority =Field(default=Priority.HIGH)
 
 class ATodo(TodoBase):
-    id: str =Field(...,max_length=1)
+    id: int =Field(...)
 
 class CreateTodo(TodoBase):
     pass
@@ -34,8 +34,8 @@ app = FastAPI()
 # RANDOM data just to test our study case
 todo_list = [
     ATodo(id=1,text="School",due="Today",priority=Priority.HIGH),
-    ATodo(id=1,text="gym",due="Tommorow",priority=Priority.LOW),
-    ATodo(id=1,text="Buy A laptop",due="Next Week",priority=Priority.MEDIUM)
+    ATodo(id=3,text="gym",due="Tommorow",priority=Priority.LOW),
+    ATodo(id=2,text="Buy A laptop",due="Next Week",priority=Priority.MEDIUM),
 ]
 
 @app.get("/")
@@ -48,9 +48,9 @@ def get_todos(n: int = None):
 
 @app.get("/todos/{todo_id}")
 def get_todo_by_id(todo_id: int):
-    for todo in todo_list:
-        if todo["id"] == todo_id:
-            return {"todo": todo}
+    for item in todo_list:
+        if item.id == todo_id:
+            return item
     return {"error": "ID not found in DB"}
 
 @app.post("/todos")
