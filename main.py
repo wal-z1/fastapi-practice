@@ -1,5 +1,6 @@
 from fastapi import FastAPI
-
+from typing import List , Optional
+from enum import Enum
 app = FastAPI()
 
 # RANDOM data just to test our study case
