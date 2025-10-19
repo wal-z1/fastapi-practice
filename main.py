@@ -7,6 +7,11 @@ from pydantic import BaseModel, Field
 # Example: class User(BaseModel): name: str = Field(..., max_length=50)
 
 
+class Priority(IntEnum):
+    LOW = 1
+    MEDIUM = 2
+    HIGH = 3
+
 app = FastAPI()
 
 # RANDOM data just to test our study case
