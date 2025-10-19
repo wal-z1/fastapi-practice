@@ -12,6 +12,23 @@ class Priority(IntEnum):
     MEDIUM = 2
     HIGH = 3
 
+#define a schema for base , use type and size definations for certain fields
+class TodoBase(BaseModel):
+    text: str = Field(...,min_length=4,max_length=20) #must be filled with str from  4 to 20
+    due : str = Field(...,min_length=4,max_length=10)
+    priority : Priority =Field(default=Priority.HIGH)
+
+class ATodo(TodoBase):
+    id: str =Field(...,max_length=1)
+    
+class CreateTodo(TodoBase):
+    pass
+
+class UpdateTodo(BaseModel):
+    text:  Optional[str] = Field(None,min_length=4,max_length=20) 
+    due : Optional[str] = Field(None,min_length=4,max_length=10)
+    priority : Optional[Priority] =Field(None)
+        
 app = FastAPI()
 
 # RANDOM data just to test our study case
