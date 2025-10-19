@@ -68,9 +68,9 @@ def add_todo(todo: CreateTodo): #pass the todo create becaus eit doesnt have an 
 @app.put("/todos/{todo_id}",response_model=ATodo)
 def update_list(todo_id:int,new_todo:UpdateTodo):
     for item in todo_list:
-        if item["id"]==todo_id:
-            item["text"]= new_todo["text"]
-            item["due"]= new_todo["due"]
+        if item.id == todo_id:
+            item.text= new_todo.text
+            item.due= new_todo.due
             return item #return the list after we have put into it 
     return "Error The Id to Be edited Wasn't Found"
 
