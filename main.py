@@ -1,6 +1,12 @@
 from fastapi import FastAPI
-from typing import List , Optional
-from enum import Enum
+from typing import List, Optional  
+# List[int], List[str], Optional[str] → type hints for lists and optional values
+from enum import IntEnum  
+# Example: class Status(IntEnum): OK = 1; ERROR = 2
+from pydantic import BaseModel, Field  
+# Example: class User(BaseModel): name: str = Field(..., max_length=50)
+
+
 app = FastAPI()
 
 # RANDOM data just to test our study case
